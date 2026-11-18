@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exploring Global Climate Trends and Future Projections: CMIP6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+
+  <header class="hero">
+    <p class="kicker">DSC 106 Final Project &middot; Initial prototype</p>
+    <h1>Exploring Global Climate Trends and Future Projections</h1>
+    <p class="byline">Andy Cai, Rei Gaddi, Raymond Guo &middot; data: CMIP6</p>
+  </header>
+
+  <!-- HOOK -->
+  <section class="hook">
+    <p class="hook-line">Under high emissions, San Diego's climate in 2100 already exists today:
+      <strong>about 12,000 km away, on Egypt's Mediterranean coast.</strong></p>
+    <p class="hook-sub">How can a city's climate move across the planet? It starts with a number everyone has heard and few can picture.</p>
+  </section>
+
+  <!-- AND: the headline number -->
+  <section class="chapter">
+    <p class="step">1 &middot; The headline</p>
+    <h2>The planet is warming, and how much depends on us</h2>
+    <p>Climate models run the same Earth forward under different emissions paths. Averaged over all land, one CMIP6 model (GFDL-ESM4) projects this much warming by 2081&ndash;2100, compared with 1995&ndash;2014:</p>
+    <div id="tiles" class="tiles"></div>
+    <p class="todo-note"><b>Coming next:</b> a line chart of global temperature from 1850 to 2100 for each scenario, with several models shown as a range.</p>
+  </section>
+
+  <!-- BUT: uneven warming (main interactive) -->
+  <section class="chapter">
+    <p class="step">2 &middot; But it is not spread evenly</p>
+    <h2>Where, and when, the change lands</h2>
+    <p>One average hides a lot. Switch the emissions path, pick a month, or press play, and watch where the change lands. Hover any cell or latitude for details.</p>
+
+    <div class="controls" role="group" aria-label="Map controls">
+      <div class="control">
+        <span class="control-label">Show</span>
+        <div class="seg" id="var-seg">
+          <button data-v="T" aria-pressed="true">Temperature</button>
+          <button data-v="P" aria-pressed="false">Rainfall</button>
+        </div>
+      </div>
+      <div class="control">
+        <span class="control-label">Emissions</span>
+        <div class="seg" id="scen-seg">
+          <button data-s="ssp126" aria-pressed="false">Low <small>SSP1-2.6</small></button>
+          <button data-s="ssp245" aria-pressed="false">Middle <small>SSP2-4.5</small></button>
+          <button data-s="ssp585" aria-pressed="true">High <small>SSP5-8.5</small></button>
+        </div>
+      </div>
+      <div class="control control-month">
+        <span class="control-label">Month</span>
+        <div class="seg months" id="month-seg"></div>
+        <button id="play" class="play" aria-label="Play through the months">&#9654; Play</button>
+      </div>
+    </div>
+
+    <p id="summary" class="summary" aria-live="polite"></p>
+
+    <div class="explorer">
+      <div id="legend" class="legend"></div>
+      <div class="profile-head"><b>Average by latitude</b><div id="profile-key" class="profile-key"></div></div>
+      <div class="map-wrap"><svg id="map" role="img" aria-label="World map of projected change"></svg></div>
+      <div class="profile-wrap"><svg id="profile" role="img" aria-label="Average change by latitude"></svg></div>
+    </div>
+    <p class="caption" id="caption"></p>
+  </section>
+
+  <!-- THEREFORE: stubs for the next milestones -->
+  <section class="chapter">
+    <p class="step">3 &middot; Therefore</p>
+    <h2>What does this mean for your city?</h2>
+    <div class="stub">
+      <p><b>In progress.</b> Readers will type any city and pick an emissions path. An arc on the map will jump to the place whose climate <em>today</em> best matches that city's 2081&ndash;2100 climate. Monthly temperature and rainfall for both places will be overlaid. We are porting this view from our Project 3 matching code.</p>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <p class="step">4 &middot; Off the map</p>
+    <h2>Climates with no match on Earth today</h2>
+    <div class="stub">
+      <p><b>In progress.</b> This view will highlight land whose future climate has no good present-day match. That is under 1% of land under low emissions and 16% under high emissions.</p>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <p class="step">5 &middot; Takeaway</p>
+    <h2>The emissions path decides how far your climate moves</h2>
+    <div class="stub">
+      <p><b>In progress.</b> We will close by putting the three scenarios side by side for the reader's own city.</p>
+    </div>
+  </section>
+
+  <!-- REQUIRED PROTOTYPE WRITEUP -->
+  <section class="writeup">
+    <h2>Prototype writeup</h2>
+
+    <h3>What have we done so far?</h3>
+    <p>We extracted monthly near-surface air temperature (<code>tas</code>) and precipitation (<code>pr</code>) from the CMIP6 GFDL-ESM4 model for the historical run and three future scenarios (SSP1-2.6, SSP2-4.5 and SSP5-8.5). We regridded them to 3,874 two-degree land cells and averaged each calendar month over 1995&ndash;2014 and 2081&ndash;2100. We laid out the page as an and-but-therefore story. It opens with the San Diego hook, moves from the global average to the uneven map, and ends with sections for each reader's own city and for climates that have no match today. The main interactive view is built in D3: a map of temperature or rainfall change linked to a latitude profile on the same vertical scale. Readers can switch the emissions path, step through months or play them as an animation, and hover any cell or latitude for exact values. The color scales stay fixed across scenarios and months, so the colors can be compared fairly when the reader switches views.</p>
+
+    <h3>What will be the most challenging part to design, and why?</h3>
+    <p>The hardest design problem will be moving from the single global number to the local view without losing the reader. The scroll has to explain why a +4&deg;C land average under high emissions can mean +9&deg;C in a far-northern winter, without turning into a wall of text. A second challenge is showing uncertainty honestly. Right now everything comes from one model, which sits at the low end of CMIP6 warming, and adding more models means deciding whether to show a range, a median or a model picker without cluttering the map. Rainfall is also tricky to encode: percent change exaggerates small changes in very dry months, but absolute change in mm/day hides big shifts in dry regions. Finally, the "your city" view depends on a matching method readers have never seen. We need an interaction that makes "the place whose climate today matches yours in 2100" feel intuitive rather than like a black box.</p>
+  </section>
+
+  <footer>
+    Data: CMIP6 (NOAA public dataset on Google Cloud), GFDL-ESM4 r1i1p1f1, monthly <code>tas</code> and <code>pr</code>, regridded to 2&deg; land cells.
+    Place names: Natural Earth (public domain). Built with D3.js.
+  </footer>
+</main>
+
+<div id="tooltip" class="tooltip" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="main.js"></script>
+</body>
+</html>
